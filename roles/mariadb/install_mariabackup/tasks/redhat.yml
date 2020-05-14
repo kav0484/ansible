@@ -1,0 +1,11 @@
+- name: installing mariabackup package
+  yum:
+    name: 
+      - MariaDB-backup
+      - MySQL-python
+
+- name: copying maribackup.cnf
+  template:
+    src: mariabackup.cnf.j2
+    dest: /etc/my.cnf.d/mariabackup.cnf
+    mode: 0644

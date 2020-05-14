@@ -1,0 +1,15 @@
+- name: setup galera cluster
+  hosts: galera
+  become: True
+  vars:
+    galera_cluster_name: 'suitecrm_cluster'
+    mysql_user: root
+    mysql_password: password
+    repl_user: 'replica'
+    repl_password: 'password'
+    bootstrap_node: '192.168.0.95'
+    nodes:
+      - '192.168.0.95' 
+      - '192.168.0.96'
+  roles:
+    - mariadb/setup_galera

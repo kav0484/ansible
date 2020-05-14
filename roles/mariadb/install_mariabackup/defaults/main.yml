@@ -1,0 +1,4 @@
+cron_minute: '0'
+cron_hour: '*'
+cron_weekday: '*'
+dir_backup: '/var/backup/mysql'

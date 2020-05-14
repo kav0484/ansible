@@ -1,0 +1,32 @@
+- name: set root password
+  mysql_user:
+    name: root
+    password: "{{ root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+  when: ansible_facts['distribution'] == 'CentOS'
+
+- name: set root password
+  mysql_user:
+    name: root
+    password: "{{ root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  when: ansible_facts['os_family'] == 'Debian'
+
+
+- name: Removes all anonymous user accounts
+  mysql_user:
+    login_user: root
+    login_password: "{{ root_password }}"
+    name: ''
+    host_all: yes
+    state: absent
+   
+
+- name: removing test database
+  mysql_db:
+    login_user: root
+    login_password: "{{ root_password }}"
+    name: test
+    state: absent
+    
+

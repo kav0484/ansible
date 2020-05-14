@@ -1,0 +1,12 @@
+- name: install mariabackup
+  hosts: u18mariadb1
+  become: True
+  vars:
+    login_mysql_user: root
+    login_mysql_password: password
+    backup_mysql_user: mariabackup
+    backup_mysql_password: password
+
+  roles:
+    - mariadb/add_repo
+    - mariadb/install_mariabackup

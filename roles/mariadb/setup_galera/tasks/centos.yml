@@ -1,0 +1,36 @@
+- name: installing required packet MySQL-python
+  yum:
+    name: MySQL-python
+
+- name: create replication user
+  mysql_user:
+    login_user: "{{ mysql_user }}"
+    login_password: "{{ mysql_password }}"
+    name: "{{ repl_user }}"
+    password: "{{ repl_password }}"
+    priv: "*.*:ALL,GRANT"
+    state: present
+
+- name: copying template galera config
+  template:
+    src: galera.cnf.j2
+    dest: /etc/my.cnf.d/galera.cnf
+    mode: 0644  
+
+- name: stop mysql service on all nodes
+  service:
+    name: mariadb
+    state: stopped    
+
+- name: Start bootsrap node
+  command: "galera_new_cluster"
+  loop: "{{ ansible_all_ipv4_addresses }}"
+  when:  item  == bootstrap_node
+
+- name: start mysql service on all nodes if not started
+  service:
+    name: mariadb
+    state: started
+
+
+  

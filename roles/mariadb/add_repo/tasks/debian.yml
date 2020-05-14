@@ -1,0 +1,22 @@
+- name: installing necessary software
+  apt:
+    name: 
+        - software-properties-common
+        - dirmngr
+    state: present
+    update_cache: yes
+
+- name: add signing key mariadb
+  apt_key:
+    url: https://mariadb.org/mariadb_release_signing_key.asc
+    state: present
+
+
+
+- name: add repository mariadb
+  apt_repository:
+    repo: 'deb [arch=amd64] http://sgp1.mirrors.digitalocean.com/mariadb/repo/{{ version }}/{{ ansible_distribution|lower}} {{ ansible_distribution_release|lower }} main'
+    state: present
+
+
+

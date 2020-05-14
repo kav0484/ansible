@@ -1,0 +1,24 @@
+[galera]
+wsrep_on=ON
+binlog_format=ROW
+innodb_autoinc_lock_mode=2
+innodb_locks_unsafe_for_binlog=1
+query_cache_size=0
+query_cache_type=0
+default_storage_engine=InnoDB
+innodb_log_file_size=100M
+innodb_file_per_table
+innodb_flush_log_at_trx_commit=2
+wsrep_provider={{ path_wsrep_provider }}
+wsrep_cluster_name='{{ galera_cluster_name }}'
+wsrep_cluster_address='gcomm://{{ nodes | join(',') }}'
+{% for interface in ansible_interfaces %}
+{% for node in nodes %}
+{% if hostvars[inventory_hostname]['ansible_'+interface]['ipv4']['address'] == node %}
+wsrep_node_address='{{ node }}'
+wsrep_node_name={{ ansible_hostname }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+wsrep_sst_method={{ wsrep_sst_method }}
+wsrep_sst_auth={{ repl_user }}:{{ repl_password }}

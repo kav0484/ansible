@@ -1,0 +1,12 @@
+- name: installing 
+  apt:
+    name:
+        - mariadb-backup
+        - python3-pymysql
+    state: latest
+
+- name: copying maribackup.cnf
+  template:
+    src: mariabackup.cnf.j2
+    dest: /etc/mysql/mariadb.conf.d/mariabackup.cnf
+    mode: 0644

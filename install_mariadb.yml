@@ -1,0 +1,9 @@
+- name: install mariadb server
+  hosts: u18mariadb1
+  become: True
+  vars:
+    root_password: "password"
+  roles:
+    - mariadb/mariadb_add_repo
+#    - mariadb/install_server
+#    - mariadb/setup_master_slave

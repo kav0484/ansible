@@ -1,0 +1,24 @@
+- include_tasks: "{{ ansible_os_family|lower }}.yml"
+
+- name: add user for backup
+  mysql_user:
+    login_user: "{{ login_mysql_user }}"
+    login_password: "{{ login_mysql_password }}"
+    name: "{{ backup_mysql_user }}"
+    password: "{{ backup_mysql_password }}"
+    priv: "*.*:RELOAD,PROCESS,GRANT"
+
+
+- name: copying maria_backup.sh script
+  template:
+    src: maria_backup.sh.j2
+    dest: /usr/bin/maria_backup.sh
+    mode: 0755  
+
+- name: setting up cron for backup
+  cron:
+    name: "backup mysql databases"
+    weekday: "{{ cron_weekday }}"
+    minute: "{{ cron_minute }}"
+    hour: "{{ cron_hour }}"
+    job: /usr/bin/maria_backup.sh

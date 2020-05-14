@@ -1,0 +1,13 @@
+- name: add group admin
+  group:
+    name: admin
+    state: present
+
+- name: copy sudoers file
+  copy:
+    src: admin
+    dest: /etc/sudoers.d/
+    owner: root
+    group: root
+    mode: '0440'
+  

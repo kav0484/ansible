@@ -1,0 +1,9 @@
+- name: installing DB
+  yum:
+    name:
+        - MariaDB-server
+        - MariaDB-client
+        - MySQL-python
+    state: latest
+  notify: 
+    - mariadb start      

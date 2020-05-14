@@ -1,0 +1,8 @@
+- name: installing MariaDB
+  apt:
+    name:
+        - mariadb-server
+        - python3-pymysql
+    state: latest
+  notify: 
+    - mariadb start
